@@ -12,20 +12,25 @@ import { FiLock, FiMail } from "react-icons/fi";
 import zxcvbn from "zxcvbn";
 
 const validationSchema = yup.object().shape({
-  name: yup.string().required("Name is required!"),
+  name: yup
+    .string()
+    .min(2, "Name must be at least 2 characters")
+    .max(32, "Name must be less than 32 characters")
+    .matches(new RegExp("^[a-zA-Z]+$"), "No special characters allowed.")
+    .required("Name is required!"),
   email: yup.string().email("Invalid email!").required("Email is required!"),
   password: yup
     .string()
     .min(6, "Password must be at least 6 characters.")
     .max(52, "Password must be less than 6 characters.")
     .required("Password is required!"),
-  confirmPassword: yup.string().oneOf([yup.ref('password'), null], "Password doesn't match!")
+  confirmPassword: yup
+    .string()
+    .oneOf([yup.ref("password"), ""], "Password doesn't match!"),
 });
 
 function SignUpPage() {
   const [passwordScore, setPasswordScore] = React.useState(0);
-
-  const formErrors: string[] = [];
 
   const {
     values,
@@ -112,19 +117,6 @@ function SignUpPage() {
         <Button type="submit" className="w-full">
           Sign up
         </Button>
-        <div className="">
-          {formErrors.map((err) => {
-            return (
-              <div
-                key={err}
-                className="space-x-1 flex items-center text-red-500"
-              >
-                <XMarkIcon className="w-4 h-4" />
-                <p className="text-xs">{err}</p>
-              </div>
-            );
-          })}
-        </div>
       </AuthFormContainer>
     </div>
   );
