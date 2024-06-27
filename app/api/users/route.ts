@@ -41,7 +41,10 @@ export const POST = async (req: Request) => {
       html: `<h1>please verify email by clicking on <a href=${verificationUrl}>this link</a></h1>`,
     });
 
-    return NextResponse.json({ newUser }, { status: 200 });
+    return NextResponse.json(
+      { message: "please check your email! " },
+      { status: 200 }
+    );
   } catch (error) {
     return NextResponse.json(
       { message: (error as Error).message },
