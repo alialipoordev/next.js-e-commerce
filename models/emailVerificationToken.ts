@@ -17,20 +17,18 @@ const EmailVerificationTokenSchema = new Schema<
   Methods
 >({
   user: {
-    user: {
-      type: Schema.Types.ObjectId,
-      ref: "User",
-      required: true,
-    },
-    token: {
-      type: String,
-      required: true,
-    },
-    createdAt: {
-      type: Date,
-      default: Date.now(),
-      expires: 60 * 60 * 24,
-    },
+    type: Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
+  token: {
+    type: String,
+    required: true,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now(),
+    expires: 60 * 60 * 24,
   },
 });
 
