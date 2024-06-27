@@ -48,8 +48,16 @@ function SignUpPage() {
       password: "",
       confirmPassword: "",
     },
-    onSubmit: (values) => {
-      console.log(values);
+    onSubmit: async (values, action) => {
+      action.setSubmitting(true);
+      const res = await fetch("/api/users", {
+        method: "POST",
+        body: JSON.stringify(values),
+        headers: { "Content-Type": "application/json" },
+      });
+      const data = await res.json();
+      console.log(data);
+      action.setSubmitting(false);
     },
   });
 
@@ -114,7 +122,7 @@ function SignUpPage() {
           touched={touched?.password}
           disabled={isSubmitting}
         />
-        <Button type="submit" className="w-full">
+        <Button disabled={isSubmitting} type="submit" className="w-full">
           Sign up
         </Button>
       </AuthFormContainer>
