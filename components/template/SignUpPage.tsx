@@ -10,6 +10,7 @@ import InputForm from "../module/InputForm";
 import { CiUser } from "react-icons/ci";
 import { FiLock, FiMail } from "react-icons/fi";
 import zxcvbn from "zxcvbn";
+import { toast } from "react-toastify";
 
 const validationSchema = yup.object().shape({
   name: yup
@@ -55,8 +56,8 @@ function SignUpPage() {
         body: JSON.stringify(values),
         headers: { "Content-Type": "application/json" },
       });
-      const data = await res.json();
-      console.log(data);
+      const { message } = (await res.json()) as { message: string };
+      toast.success(message);
       action.setSubmitting(false);
     },
   });

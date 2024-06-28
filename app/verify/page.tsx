@@ -2,6 +2,7 @@
 
 import { notFound, useRouter } from "next/navigation";
 import * as React from "react";
+import { toast } from "react-toastify";
 
 interface VerifyProps {
   searchParams: {
@@ -26,12 +27,12 @@ const Verify: React.FunctionComponent<VerifyProps> = ({ searchParams }) => {
       };
 
       if (res.ok) {
-        console.log(message);
+        toast.success(message);
         router.replace("/")
       }
 
       if (!res.ok && error) {
-        console.log(error);
+        toast.error(error);
       }
     });
   }, []);
