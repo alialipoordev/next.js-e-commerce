@@ -2,7 +2,6 @@
 
 import React from "react";
 import { Button } from "@material-tailwind/react";
-import { XMarkIcon } from "@heroicons/react/24/outline";
 import AuthFormContainer from "../module/AuthFormContainer";
 import { useFormik } from "formik";
 import * as yup from "yup";
@@ -11,6 +10,7 @@ import { CiUser } from "react-icons/ci";
 import { FiLock, FiMail } from "react-icons/fi";
 import zxcvbn from "zxcvbn";
 import { toast } from "react-toastify";
+import Link from "next/link";
 
 const validationSchema = yup.object().shape({
   name: yup
@@ -51,7 +51,7 @@ function SignUpPage() {
     },
     onSubmit: async (values, action) => {
       action.setSubmitting(true);
-      const res = await fetch("/api/users", {
+      const res = await fetch("/api/users/signup", {
         method: "POST",
         body: JSON.stringify(values),
         headers: { "Content-Type": "application/json" },
@@ -126,6 +126,10 @@ function SignUpPage() {
         <Button disabled={isSubmitting} type="submit" className="w-full">
           Sign up
         </Button>
+        <div className="flex items-center justify-between">
+          <Link href="/signin">Sign in</Link>
+          <Link href="/auth/forget-password">Forget password</Link>
+        </div>
       </AuthFormContainer>
     </div>
   );

@@ -1,4 +1,4 @@
-import * as React from "react";
+import { useSession } from "next-auth/react";
 
 interface AuthProps {
   loading: boolean;
@@ -7,9 +7,11 @@ interface AuthProps {
 }
 
 const useAuth = (): AuthProps => {
+  const session = useSession()
+  console.log(session)
   return {
-    loading: false,
-    loggedIn: false,
+    loading: session.status === "loading",
+    loggedIn: session.status === "authenticated",
     isAdmin: false,
   };
 };
