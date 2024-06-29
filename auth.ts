@@ -20,8 +20,11 @@ export const authOptions: AuthOptions = {
           }
         ).then(async (res) => await res.json());
 
+        if (error) return null;
+
         return {
           id: user.id,
+          ...user,
         };
       },
     }),
