@@ -18,6 +18,11 @@ export interface EmailVerifyRequest {
 export interface ForgotPasswordRequest {
   email: string;
 }
+export interface UpdatePasswordRequest {
+  password: string;
+  token: string;
+  userId: string;
+}
 
 export interface SignInCredentials {
   email: string;

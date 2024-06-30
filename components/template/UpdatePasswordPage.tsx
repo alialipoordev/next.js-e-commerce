@@ -9,6 +9,7 @@ import AuthFormContainer from "../module/AuthFormContainer";
 import InputForm from "../module/InputForm";
 import { FiLock } from "react-icons/fi";
 import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 const validationSchema = yup.object().shape({
   password: yup
@@ -32,6 +33,7 @@ export default function UpdatePasswordPage({
   token,
 }: UpdatePasswordProps) {
   const [passwordScore, setPasswordScore] = React.useState(0);
+  const router = useRouter();
 
   const {
     values,
@@ -44,7 +46,22 @@ export default function UpdatePasswordPage({
   } = useFormik({
     initialValues: { password: "", confirmPassword: "" },
     validationSchema,
-    onSubmit: async (values, actions) => {},
+    onSubmit: async (values, actions) => {
+      const res = await fetch("/api/users/update-password", {
+        method: "POST",
+        body: JSON.stringify({ password: values.password, userId, token }),
+      });
+      const { message, error } = await res.json();
+
+      if (res.ok) {
+        toast.success(message);
+        router.replace("/signin");
+      }
+
+      if (!res.ok || error) {
+        toast.error(error);
+      }
+    },
   });
 
   return (

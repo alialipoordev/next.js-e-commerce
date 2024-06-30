@@ -47,7 +47,7 @@ export const POST = async (req: Request) => {
       },
     });
 
-    transport.sendMail({
+    await transport.sendMail({
       from: "verification@nextecom.com",
       to: user.email,
       html: `<h1>click on <a href=${resetPasswordUrl}>this link</a> to reset your password</h1>`,

@@ -35,7 +35,7 @@ export const POST = async (req: Request) => {
 
     const verificationUrl = `http://localhost:3000/verify?token=${token}&userId=${newUser._id}`;
 
-    transport.sendMail({
+    await transport.sendMail({
       from: "verification@nextecom.com",
       to: newUser.email,
       html: `<h1>please verify email by clicking on <a href=${verificationUrl}>this link</a></h1>`,
