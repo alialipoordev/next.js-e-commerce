@@ -4,7 +4,7 @@ import UserModel from "@/models/userModel";
 import { ForgotPasswordRequest } from "@/types";
 import { NextResponse } from "next/server";
 import crypto from "crypto";
-import { nodemailer } from "nodemailer";
+import nodemailer from "nodemailer";
 
 export const POST = async (req: Request) => {
   try {
@@ -50,7 +50,7 @@ export const POST = async (req: Request) => {
     transport.sendMail({
       from: "verification@nextecom.com",
       to: user.email,
-      html: `<h1>clicking on <a href=${resetPasswordUrl}>this link</a> to reset your password</h1>`,
+      html: `<h1>click on <a href=${resetPasswordUrl}>this link</a> to reset your password</h1>`,
     });
 
     return NextResponse.json(

@@ -26,9 +26,25 @@ export default function ForgotPasswordPage() {
     handleBlur,
     handleChange,
   } = useFormik({
-    initialValues: { email: "", password: "" },
+    initialValues: { email: "" },
     validationSchema,
-    onSubmit: async (values, actions) => {},
+    onSubmit: async (values, actions) => {
+      actions.setSubmitting(true);
+      const res = await fetch("/api/users/forgot-password", {
+        method: "POST",
+        body: JSON.stringify(values),
+      });
+      const { message, error } = await res.json();
+
+      if (res.ok) {
+        toast.success(message);
+      }
+
+      if (!res.ok && error) {
+        toast.error(error);
+      }
+      actions.setSubmitting(false);
+    },
   });
 
   return (
