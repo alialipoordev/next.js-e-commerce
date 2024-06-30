@@ -1,8 +1,6 @@
 import CredentialsProvider from "next-auth/providers/credentials";
-import NextAuth, { AuthOptions, User } from "next-auth";
+import NextAuth, { AuthOptions } from "next-auth";
 import { SignInCredentials } from "@/types";
-import connectDB from "@/lib/connectDB";
-import UserModel from "@/models/userModel";
 
 export const authOptions: AuthOptions = {
   providers: [
@@ -29,6 +27,21 @@ export const authOptions: AuthOptions = {
       },
     }),
   ],
+  callbacks: {
+    async jwt(params) {
+      if (params.user) {
+        params.token.user = params.user;
+      }
+      return params.token;
+    },
+    async session(params) {
+      const user = params.token.user;
+      if (user) {
+        params.session.user = { ...params.session.user, ...user };
+      }
+      return params.session;
+    },
+  },
 };
 
 const handler = NextAuth(authOptions);
