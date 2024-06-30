@@ -67,7 +67,7 @@ export default function ForgotPasswordPage() {
         </Button>
         <div className="flex items-center justify-between">
           <Link href="/signup">Sign up</Link>
-          <Link href="/signup">Sign up</Link>
+          <Link href="/signin">Sign in</Link>
         </div>
       </AuthFormContainer>
     </div>
