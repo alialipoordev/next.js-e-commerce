@@ -15,6 +15,10 @@ export interface EmailVerifyRequest {
   userId: string;
 }
 
+export interface ForgotPasswordRequest {
+  email: string;
+}
+
 export interface SignInCredentials {
   email: string;
   password: string;

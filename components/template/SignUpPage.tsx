@@ -128,7 +128,7 @@ function SignUpPage() {
         </Button>
         <div className="flex items-center justify-between">
           <Link href="/signin">Sign in</Link>
-          <Link href="/auth/forget-password">Forget password</Link>
+          <Link href="/forgot-password">Forgot password</Link>
         </div>
       </AuthFormContainer>
     </div>

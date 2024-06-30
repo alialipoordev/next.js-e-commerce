@@ -7,23 +7,15 @@ import Link from "next/link";
 import * as yup from "yup";
 import AuthFormContainer from "../module/AuthFormContainer";
 import InputForm from "../module/InputForm";
-import { FiLock, FiMail } from "react-icons/fi";
-import { signIn } from "next-auth/react";
+import { FiMail } from "react-icons/fi";
 import { toast } from "react-toastify";
-import { useRouter } from "next/navigation";
 
 const validationSchema = yup.object().shape({
   email: yup.string().email("Invalid email!").required("Email is required!"),
-  password: yup
-    .string()
-    .min(6, "Password must be at least 6 characters.")
-    .max(52, "Password must be less than 6 characters.")
-    .required("Password is required!"),
 });
 
-export default function SignInPage() {
+export default function ForgotPasswordPage() {
   const [passwordScore, setPasswordScore] = React.useState(0);
-  const router = useRouter();
 
   const {
     values,
@@ -36,25 +28,12 @@ export default function SignInPage() {
   } = useFormik({
     initialValues: { email: "", password: "" },
     validationSchema,
-    onSubmit: async (values, actions) => {
-      const signInRes = await signIn("credentials", {
-        ...values,
-        redirect: false,
-      });
-
-      if (signInRes?.error === "CredentialsSignin") {
-        toast.error("Email/Password mismatch!");
-      }
-
-      if (!signInRes?.error) {
-        router.refresh();
-      }
-    },
+    onSubmit: async (values, actions) => {},
   });
 
   return (
     <div className="h-screen flex items-center justify-center">
-      <AuthFormContainer title="Sign in" onSubmit={handleSubmit}>
+      <AuthFormContainer title="Forgot Password" onSubmit={handleSubmit}>
         <InputForm
           name="email"
           label="Email"
@@ -67,25 +46,12 @@ export default function SignInPage() {
           error={errors?.email}
           touched={touched?.email}
         />
-        <InputForm
-          name="password"
-          label="Password"
-          type="password"
-          icon={<FiLock />}
-          placeholder="******"
-          value={values.password}
-          onChange={handleChange}
-          disabled={isSubmitting}
-          error={errors?.password}
-          touched={touched?.password}
-          passwordScore={passwordScore}
-        />
         <Button type="submit" className="w-full" disabled={isSubmitting}>
-          Sign in
+          Send Link
         </Button>
         <div className="flex items-center justify-between">
           <Link href="/signup">Sign up</Link>
-          <Link href="/forgot-password">Forgot password</Link>
+          <Link href="/signup">Sign up</Link>
         </div>
       </AuthFormContainer>
     </div>
