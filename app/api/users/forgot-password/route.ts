@@ -36,7 +36,7 @@ export const POST = async (req: Request) => {
       token,
     });
 
-    const resetPasswordUrl = `http://localhost:3000/reset-password?token=${token}&userId=${user._id}`;
+    const resetPasswordUrl = `${process.env.PASSWORD_RESET_URL}?token=${token}&userId=${user._id}`;
 
     const transport = nodemailer.createTransport({
       host: "sandbox.smtp.mailtrap.io",
