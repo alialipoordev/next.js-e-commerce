@@ -60,12 +60,12 @@ export default function NavUI({ cartItemsCount }: Props) {
               <Spinner />
             ) : (
               <>
-                <Link className="px-4 py-1" href="/auth/signin">
+                <Link className="px-4 py-1" href="/signin">
                   Sign in
                 </Link>
                 <Link
                   className="bg-blue-500 text-white px-4 py-1 rounded"
-                  href="/auth/signup"
+                  href="/signup"
                 >
                   Sign up
                 </Link>
