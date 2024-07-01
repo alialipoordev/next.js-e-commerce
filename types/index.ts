@@ -28,3 +28,12 @@ export interface SignInCredentials {
   email: string;
   password: string;
 }
+
+export interface SessionUserProfile {
+  id: string;
+  name: string;
+  email: string;
+  avatar?: string;
+  role: "admin" | "user";
+  verified: boolean;
+}

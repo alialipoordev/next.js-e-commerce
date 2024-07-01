@@ -1,18 +1,21 @@
+import { SessionUserProfile } from "@/types";
 import { useSession } from "next-auth/react";
 
 interface AuthProps {
   loading: boolean;
   loggedIn: boolean;
   isAdmin: boolean;
+  profile?: SessionUserProfile | null;
 }
 
 const useAuth = (): AuthProps => {
-  const session = useSession()
-  console.log(session)
+  const { status, data } = useSession();
+
   return {
-    loading: session.status === "loading",
-    loggedIn: session.status === "authenticated",
+    loading: status === "loading",
+    loggedIn: status === "authenticated",
     isAdmin: false,
+    profile: data?.user,
   };
 };
 

@@ -11,7 +11,6 @@ const GuestLayout: React.FunctionComponent<GuestLayoutProps> = async ({
   children,
 }) => {
   const session = await getServerSession(authOptions);
-  console.log(session)
   if (session) return redirect("/");
 
   return <div>{children}</div>;

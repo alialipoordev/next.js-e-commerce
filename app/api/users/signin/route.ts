@@ -23,9 +23,11 @@ export const POST = async (req: Request) => {
     return NextResponse.json({
       user: {
         id: String(user._id),
+        email: user.email,
         name: user.name,
         avatar: user.avatar?.url,
         role: user.role,
+        verified: user.verified
       },
     });
   } catch (error) {
