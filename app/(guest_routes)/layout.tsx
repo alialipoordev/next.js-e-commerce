@@ -1,7 +1,5 @@
 import { authOptions } from "@/auth";
-import { NextPageContext } from "next";
 import { getServerSession } from "next-auth";
-import { getToken } from "next-auth/jwt";
 import { redirect } from "next/navigation";
 import * as React from "react";
 

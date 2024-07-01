@@ -28,12 +28,13 @@ const Verify: React.FunctionComponent<VerifyProps> = ({ searchParams }) => {
 
       if (res.ok) {
         toast.success(message);
-        router.replace("/")
       }
 
       if (!res.ok && error) {
         toast.error(error);
       }
+
+      router.replace("/");
     });
   }, []);
 

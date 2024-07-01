@@ -11,6 +11,7 @@ import { FiLock, FiMail } from "react-icons/fi";
 import zxcvbn from "zxcvbn";
 import { toast } from "react-toastify";
 import Link from "next/link";
+import { signIn } from "next-auth/react";
 
 const validationSchema = yup.object().shape({
   name: yup
@@ -56,8 +57,22 @@ function SignUpPage() {
         body: JSON.stringify(values),
         headers: { "Content-Type": "application/json" },
       });
-      const { message } = (await res.json()) as { message: string };
-      toast.success(message);
+      const { message, error } = (await res.json()) as {
+        message: string;
+        error: string;
+      };
+
+      if (res.ok) {
+        toast.success(message);
+        await signIn("credentials", {
+          email: values.email,
+          password: values.password,
+        });
+      }
+
+      if (!res.ok && error) {
+        toast.error(error);
+      }
       action.setSubmitting(false);
     },
   });
