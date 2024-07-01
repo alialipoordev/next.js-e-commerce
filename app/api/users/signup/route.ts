@@ -2,9 +2,9 @@ import connectDB from "@/lib/connectDB";
 import UserModel from "@/models/userModel";
 import { NewUserRequest } from "@/types";
 import { NextResponse } from "next/server";
-import nodemailer from "nodemailer";
 import crypto from "crypto";
 import EmailVerificationToken from "@/models/emailVerificationToken";
+import sendMail from "@/utils/sendMail";
 
 export const POST = async (req: Request) => {
   try {
@@ -24,21 +24,12 @@ export const POST = async (req: Request) => {
       token,
     });
 
-    const transport = nodemailer.createTransport({
-      host: "sandbox.smtp.mailtrap.io",
-      port: 2525,
-      auth: {
-        user: "3121861414a3d9",
-        pass: "bc8c64e5b61b9e",
-      },
-    });
+    const verificationUrl = `${process.env.VERIFICATION_URL}?token=${token}&userId=${newUser._id}`;
 
-    const verificationUrl = `http://localhost:3000/verify?token=${token}&userId=${newUser._id}`;
-
-    await transport.sendMail({
-      from: "verification@nextecom.com",
-      to: newUser.email,
-      html: `<h1>please verify email by clicking on <a href=${verificationUrl}>this link</a></h1>`,
+    await sendMail({
+      profile: { name: newUser.name, email: newUser.email },
+      subject: "verification",
+      linkUrl: verificationUrl,
     });
 
     return NextResponse.json(
