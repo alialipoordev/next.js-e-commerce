@@ -23,13 +23,13 @@ const AdminSidebar = ({ children }: Props) => {
           <li>
             <Link
               className="font-semibold text-lg text-white"
-              href="/dashboard"
+              href="/admin/dashboard"
             >
               Ecommerce
             </Link>
           </li>
           <li>
-            <Link className="flex items-center space-x-1" href="/dashboard">
+            <Link className="flex items-center space-x-1" href="/admin/dashboard">
               <Squares2X2Icon className="w-4 h-4" />
               <span>Dashboard</span>
             </Link>

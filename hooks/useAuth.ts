@@ -10,11 +10,12 @@ interface AuthProps {
 
 const useAuth = (): AuthProps => {
   const { status, data } = useSession();
+  console.log(data);
 
   return {
     loading: status === "loading",
     loggedIn: status === "authenticated",
-    isAdmin: false,
+    isAdmin: data?.user.role == "admin",
     profile: data?.user,
   };
 };

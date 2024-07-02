@@ -1,9 +1,13 @@
-import React from 'react'
+"use client";
+
+import React from "react";
+import { usePathname } from "next/navigation";
 
 function Footer() {
-  return (
-    <div>Footer</div>
-  )
+  const path = usePathname();
+  if (path.startsWith("/admin")) return null;
+
+  return <div>Footer</div>;
 }
 
-export default Footer
+export default Footer;
