@@ -1,8 +1,9 @@
+import ProductForm from '@/components/module/ProductForm'
 import React from 'react'
 
 function Create() {
   return (
-    <div>Create</div>
+    <ProductForm />
   )
 }
 

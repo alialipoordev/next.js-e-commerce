@@ -24,6 +24,7 @@
     "react-dom": "^18",
     "react-icons": "^5.2.1",
     "react-toastify": "^10.0.5",
+    "truncate": "^3.0.0",
     "yup": "^1.4.0",
     "zxcvbn": "^4.4.2"
   },

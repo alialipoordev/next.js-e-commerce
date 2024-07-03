@@ -13,6 +13,8 @@ import MobileNav from "./MobileNav";
 import CartIcon from "./CartIcon";
 import { UserCircleIcon, ShoppingBagIcon } from "@heroicons/react/24/outline";
 import useAuth from "@/hooks/useAuth";
+import { usePathname } from "next/navigation";
+
 
 interface Props {
   cartItemsCount: number;
@@ -34,12 +36,17 @@ export const menuItems = [
 export default function NavUI({ cartItemsCount }: Props) {
   const [open, setOpen] = React.useState(false);
   const { loading, loggedIn } = useAuth();
+  const path = usePathname()
 
+  
+  
   React.useEffect(() => {
     const onResize = () => window.innerWidth >= 960 && setOpen(false);
     window.addEventListener("resize", onResize);
     return () => window.removeEventListener("resize", onResize);
   }, []);
+  
+  if (path.startsWith("/admin")) return null;
 
   return (
     <>

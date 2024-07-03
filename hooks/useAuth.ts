@@ -10,7 +10,6 @@ interface AuthProps {
 
 const useAuth = (): AuthProps => {
   const { status, data } = useSession();
-  console.log(data);
 
   return {
     loading: status === "loading",

@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import Link from "next/link";
 import React, { ReactNode } from "react";
@@ -29,14 +29,20 @@ const AdminSidebar = ({ children }: Props) => {
             </Link>
           </li>
           <li>
-            <Link className="flex items-center space-x-1" href="/admin/dashboard">
+            <Link
+              className="flex items-center space-x-1"
+              href="/admin/dashboard"
+            >
               <Squares2X2Icon className="w-4 h-4" />
               <span>Dashboard</span>
             </Link>
             <hr className="w-full " />
           </li>
           <li>
-            <Link className="flex items-center space-x-1" href="/products">
+            <Link
+              className="flex items-center space-x-1"
+              href="/admin/products"
+            >
               <ShoppingCartIcon className="w-4 h-4" />
               <span>Products</span>
             </Link>
@@ -45,7 +51,7 @@ const AdminSidebar = ({ children }: Props) => {
           <li>
             <Link
               className="flex items-center space-x-1"
-              href="/products/featured/add"
+              href="/admin/products/featured/add"
             >
               <SparklesIcon className="w-4 h-4" />
               <span>Featured</span>
