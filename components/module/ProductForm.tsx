@@ -17,10 +17,11 @@ import React, {
 import { PlusIcon, TrashIcon } from "@heroicons/react/24/outline";
 import categories from "@/constant/categories";
 import ImageSelector from "./ImageSelector";
+import { NewProductInfo } from "@/types";
 
 interface ProductFormProps {
   initialValue?: InitialValue;
-  onSubmit(values: any): void;
+  onSubmit(values: NewProductInfo): void;
 }
 
 export interface InitialValue {
