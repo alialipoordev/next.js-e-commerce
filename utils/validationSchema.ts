@@ -7,7 +7,7 @@ const fileValidator = (file: File) => {
   return file.size <= 1024 * 1024;
 };
 
-const newProductInfoSchema = {
+export const newProductInfoSchema = Yup.object().shape({
   title: Yup.string().required("Title is required"),
   description: Yup.string().required("Description is required"),
   bulletPoints: Yup.array().of(Yup.string()),
@@ -19,11 +19,14 @@ const newProductInfoSchema = {
     .required("Category is required")
     .oneOf(categories, "Invalid category"),
   quantity: Yup.number().required("Quantity is required").integer(),
+  thumbnail: Yup.mixed()
+    .required("Thumbnail is required")
+    .test("fileSize", "Thumbnail should be less than 1MB", (file) =>
+      fileValidator(file as File)
+    ),
   images: Yup.array().of(
     Yup.mixed().test("fileSize", "Image should be less than 1MB", (file) =>
       fileValidator(file as File)
     )
   ),
-};
-
-export default newProductInfoSchema;
+});
