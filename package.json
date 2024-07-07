@@ -15,6 +15,7 @@
     "@types/nodemailer": "^6.4.15",
     "@types/zxcvbn": "^4.4.4",
     "bcryptjs": "^2.4.3",
+    "cloudinary": "^2.2.0",
     "formik": "^2.4.6",
     "mongoose": "^8.4.4",
     "next": "14.2.4",
