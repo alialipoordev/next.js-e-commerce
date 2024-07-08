@@ -1,5 +1,7 @@
-"use server"
+"use server";
 
+import connectDB from "@/lib/connectDB";
+import ProductModel, { NewProduct } from "@/models/productModel";
 import { v2 as cloudinary } from "cloudinary";
 
 cloudinary.config({
@@ -25,4 +27,14 @@ export const getCloudSignature = async () => {
   const signature = cloudinary.utils.api_sign_request({ timestamp }, secret);
 
   return { timestamp, signature };
+};
+
+export const createProduct = async (info: NewProduct) => {
+  try {
+    await connectDB();
+    await ProductModel.create({ ...info });
+  } catch (error: any) {
+    console.log(error.message);
+    throw new Error("Something went wrong, can not create product!");
+  }
 };
