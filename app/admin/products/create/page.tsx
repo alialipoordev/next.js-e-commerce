@@ -1,6 +1,6 @@
 "use client";
 
-import ProductForm from "@/components/module/ProductForm";
+import ProductFormPage from "@/components/template/ProductFormPage";
 import { NewProductInfo } from "@/types";
 import { uploadImage } from "@/utils/helper";
 import { newProductInfoSchema } from "@/utils/validationSchema";
@@ -44,7 +44,7 @@ function Create() {
     }
   };
 
-  return <ProductForm onSubmit={handleCreateProduct} />;
+  return <ProductFormPage onSubmit={handleCreateProduct} />;
 }
 
 export default Create;

@@ -16,10 +16,10 @@ import React, {
 
 import { PlusIcon, TrashIcon } from "@heroicons/react/24/outline";
 import categories from "@/constant/categories";
-import ImageSelector from "./ImageSelector";
+import ImageSelector from "../module/ImageSelector";
 import { NewProductInfo } from "@/types";
 
-interface ProductFormProps {
+interface ProductFormPageProps {
   initialValue?: InitialValue;
   onSubmit(values: NewProductInfo): void;
 }
@@ -47,7 +47,10 @@ const defaultValue = {
   quantity: 0,
 };
 
-export default function ProductForm({ onSubmit, initialValue }: ProductFormProps) {
+export default function ProductFormPage({
+  onSubmit,
+  initialValue,
+}: ProductFormPageProps) {
   const [isPending, startTransition] = useTransition();
   const [images, setImages] = useState<File[]>([]);
   const [thumbnail, setThumbnail] = useState<File>();
