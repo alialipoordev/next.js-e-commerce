@@ -1,6 +1,6 @@
-import ProductTable from "@/components/module/ProductTable";
+import ProductTablePage from "@/components/template/ProductTablePage";
 import React from "react";
-import type { Product } from "./../../../components/module/ProductTable";
+import type { Product } from "../../../components/template/ProductTablePage";
 import connectDB from "@/lib/connectDB";
 import ProductModel from "@/models/productModel";
 
@@ -37,7 +37,7 @@ async function Products() {
   const products = await fetchProducts(1, 10);
   return (
     <div>
-      <ProductTable products={products} />
+      <ProductTablePage products={products} />
     </div>
   );
 }

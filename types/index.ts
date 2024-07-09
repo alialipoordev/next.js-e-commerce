@@ -49,3 +49,24 @@ export interface NewProductInfo {
   thumbnail?: File;
   images: File[];
 }
+
+export interface ProductResponse {
+  id: string;
+  title: string;
+  description: string;
+  quantity: number;
+  price: {
+    base: number;
+    discounted: number;
+  };
+  bulletPoints?: string[];
+  images?: {
+    url: string;
+    id: string;
+  }[];
+  thumbnail: {
+    url: string;
+    id: string;
+  };
+  category: string;
+}

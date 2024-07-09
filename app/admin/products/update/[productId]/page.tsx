@@ -23,7 +23,7 @@ const fetchProductInfo = async (productId: string) => {
     quantity: product.quantity,
     price: product.price,
     bulletPoints: product.bulletPoints,
-    images: product.images,
+    images: product.images?.map(({ url, id }) => ({ url, id })),
     thumbnail: product.thumbnail,
     category: product.category,
   };

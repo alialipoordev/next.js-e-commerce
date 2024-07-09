@@ -12,7 +12,7 @@ import {
 import truncate from "truncate";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import SearchForm from "./SearchForm";
+import SearchForm from "../module/SearchForm";
 
 export interface Product {
   id: string;
@@ -46,19 +46,19 @@ const TABLE_HEAD = [
   "Edit",
 ];
 
-interface ProductTableProps {
+interface ProductTablePageProps {
   products: Product[];
   currentPageNo: number;
   hasMore?: boolean;
   showPageNavigator?: boolean;
 }
 
-export default function ProductTable({
+export default function ProductTablePage({
   products = [],
   currentPageNo,
   hasMore,
   showPageNavigator = true,
-}: ProductTableProps) {
+}: ProductTablePageProps) {
   const router = useRouter();
 
   const handleOnPrevPress = () => {
