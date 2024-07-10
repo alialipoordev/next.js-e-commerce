@@ -1,6 +1,9 @@
+"use client";
+
 import { ProductResponse } from "@/types";
 import React from "react";
 import ProductFormPage, { InitialValue } from "./ProductFormPage";
+import { removeAndUpdateProductImage } from "@/app/admin/products/action";
 
 interface UpdateProductPageProps {
   product: ProductResponse;
@@ -16,7 +19,22 @@ function UpdateProductPage({ product }: UpdateProductPageProps) {
     bulletPoints: product.bulletPoints || [],
   };
 
-  return <ProductFormPage initialValue={initialValue} />;
+  const handleImageRemove = async (source: string) => {
+    const splittedData = source.split("/");
+    const lastItem = splittedData[splittedData.length - 1];
+    const publicId = lastItem.split(".")[0];
+    await removeAndUpdateProductImage(product.id, publicId)
+  };
+
+  return (
+    <ProductFormPage
+      initialValue={initialValue}
+      onImageRemove={handleImageRemove}
+      onSubmit={(values) => {
+        console.log(values);
+      }}
+    />
+  );
 }
 
 export default UpdateProductPage;
