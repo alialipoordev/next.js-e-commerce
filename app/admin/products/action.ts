@@ -2,6 +2,7 @@
 
 import connectDB from "@/lib/connectDB";
 import ProductModel, { NewProduct } from "@/models/productModel";
+import { ProductToUpdate } from "@/types";
 import { v2 as cloudinary } from "cloudinary";
 
 cloudinary.config({
@@ -55,6 +56,29 @@ export const removeAndUpdateProductImage = async (
         $pull: { images: { id: publicId } },
       });
     }
+  } catch (error: any) {
+    console.log(error.message);
+    throw error;
+  }
+};
+
+export const updateProduct = async (
+  id: string,
+  productInfo: ProductToUpdate
+) => {
+  try {
+    await connectDB();
+
+    let images: typeof productInfo.images = [];
+    if (productInfo.images) {
+      images = productInfo.images;
+    }
+
+    delete productInfo.images;
+    await ProductModel.findByIdAndUpdate(id, {
+      ...productInfo,
+      $push: { images },
+    });
   } catch (error: any) {
     console.log(error.message);
     throw error;
