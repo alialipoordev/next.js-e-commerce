@@ -3,6 +3,7 @@ import React from "react";
 import type { Product } from "../../../components/template/ProductTablePage";
 import connectDB from "@/lib/connectDB";
 import ProductModel from "@/models/productModel";
+import { redirect } from "next/navigation";
 
 const fetchProducts = async (
   pageNo: number,
@@ -33,11 +34,29 @@ const fetchProducts = async (
   });
 };
 
-async function Products() {
-  const products = await fetchProducts(1, 10);
+interface ProductsProps {
+  searchParams: { page: string };
+}
+
+const PRODUCTS_PER_PAGE = 10;
+
+async function Products({ searchParams }: ProductsProps) {
+  const { page = "1" } = searchParams;
+  const products = await fetchProducts(+page, PRODUCTS_PER_PAGE);
+  let hasMore = true;
+  
+  if (isNaN(+page)) return redirect("/404");
+
+  if (products.length < PRODUCTS_PER_PAGE) hasMore = false;
+  else hasMore = true;
+
   return (
     <div>
-      <ProductTablePage products={products} />
+      <ProductTablePage
+        products={products}
+        currentPageNo={+page}
+        hasMore={hasMore}
+      />
     </div>
   );
 }
