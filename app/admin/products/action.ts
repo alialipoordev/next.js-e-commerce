@@ -12,7 +12,7 @@ cloudinary.config({
   secure: true,
 });
 
-export const getCloudConfig = () => {
+export const getCloudConfig = async () => {
   return {
     name: process.env.CLOUDINARY_CLOUD_NAME!,
     key: process.env.CLOUDINARY_API_KEY!,
