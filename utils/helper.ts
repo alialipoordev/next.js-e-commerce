@@ -24,3 +24,12 @@ export const uploadImage = async (file: File) => {
     id: public_id,
   };
 };
+
+export const formatPrice = (amount: number) => {
+  const formatter = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+  });
+
+  return formatter.format(amount);
+};
