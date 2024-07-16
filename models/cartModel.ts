@@ -2,7 +2,7 @@ import { Model, model, Models, models, ObjectId, Schema } from "mongoose";
 
 interface CartItem {
   productId: ObjectId;
-  quantity: Number;
+  quantity: number;
 }
 
 interface CartDocument extends Document {
