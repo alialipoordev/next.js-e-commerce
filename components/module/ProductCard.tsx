@@ -1,4 +1,5 @@
 "use client";
+import useAuth from "@/hooks/useAuth";
 import { formatPrice } from "@/utils/helper";
 import {
   Card,
@@ -11,7 +12,10 @@ import {
 } from "@material-tailwind/react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useTransition } from "react";
 import truncate from "truncate";
+import { toast } from "react-toastify";
 
 interface ProductCardProps {
   product: {
@@ -29,6 +33,23 @@ interface ProductCardProps {
 }
 
 export default function ProductCard({ product }: ProductCardProps) {
+  const [isPending, startTransition] = useTransition();
+  const { loggedIn } = useAuth();
+  const router = useRouter();
+
+  const addToCart = async () => {
+    if (!loggedIn) return router.push("/signin");
+
+    const res = await fetch("/api/product/cart", {
+      method: "POST",
+      body: JSON.stringify({ productId: product.id, quantity: 1 }),
+    });
+
+    const { error } = await res.json();
+
+    if (!res.ok && error) toast.error(error);
+  };
+
   return (
     <Card className="w-full">
       <Link className="w-full" href={`/${product.title}/${product.id}`}>
@@ -66,10 +87,13 @@ export default function ProductCard({ product }: ProductCardProps) {
           ripple={false}
           fullWidth={true}
           className="bg-blue-gray-900/10 text-blue-gray-900 shadow-none hover:shadow-none hover:scale-105 focus:shadow-none focus:scale-105 active:scale-100"
+          onClick={() => startTransition(async () => await addToCart())}
+          disabled={isPending}
         >
           Add to Cart
         </Button>
         <Button
+          disabled={isPending}
           ripple={false}
           fullWidth={true}
           className="bg-blue-400 text-white shadow-none hover:shadow-none hover:scale-105 focus:shadow-none focus:scale-105 active:scale-100"
