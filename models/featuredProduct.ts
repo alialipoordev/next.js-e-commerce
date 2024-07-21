@@ -8,7 +8,10 @@ interface FeaturedProductDocument extends Document {
 }
 
 const featuredProductSchema = new Schema<FeaturedProductDocument>({
-  banner: { type: String, required: true },
+  banner: {
+    url: { type: String, required: true },
+    id: { type: String, required: true },
+  },
   title: { type: String, required: true },
   link: { type: String, required: true },
   linkTitle: { type: String, required: true },
