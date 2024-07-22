@@ -1,6 +1,10 @@
 "use client";
 
-import { createFeaturedProduct } from "@/app/admin/products/featured/action";
+import {
+  createFeaturedProduct,
+  updateFeaturedProduct,
+} from "@/app/admin/products/featured/action";
+import { FeaturedProductUpdate } from "@/types";
 import { uploadImage } from "@/utils/helper";
 import { Button, Input } from "@material-tailwind/react";
 import Image from "next/image";
@@ -77,6 +81,8 @@ export default function FeaturedProductForm({
   const [featuredProduct, setFeaturedProduct] =
     useState<FeaturedProduct>(defaultProduct);
 
+  const router = useRouter();
+
   const handleChange: ChangeEventHandler<HTMLInputElement> = ({
     target: { name, value, files },
   }) => {
@@ -104,7 +110,34 @@ export default function FeaturedProductForm({
     }
   };
 
-  const handleUpdate = async () => {};
+  const handleUpdate = async () => {
+    try {
+      const { link, linkTitle, file, title } =
+        await oldFeaturedProductValidationSchema.validate(
+          { ...featuredProduct },
+          { abortEarly: false }
+        );
+
+      const data: FeaturedProductUpdate = {
+        link,
+        linkTitle,
+        title,
+      };
+      if (file) {
+        const banner = await uploadImage(file);
+        data.banner = banner;
+      }
+
+      await updateFeaturedProduct(initialValue.id, data);
+      router.push("/admin/products/featured/add");
+    } catch (error) {
+      if (error instanceof Yup.ValidationError) {
+        error.inner.map((err) => {
+          toast.error(err.errors[0]);
+        });
+      }
+    }
+  };
 
   const handleSubmit = async () => {
     if (isForUpdate) await handleUpdate();

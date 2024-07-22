@@ -74,10 +74,10 @@ export default function FeaturedProductTable({ products }: FeaturedProductTableP
                     </Link>
                   </td>
                   <td className={classes}>
-                    <div className="flex items-center">
+                    <div className="flex items-center justify-evenly">
                       <Link
                         className="font-semibold uppercase text-xs text-blue-400 hover:underline"
-                        href={`/products/featured/update/${id}`}
+                        href={`/admin/products/featured/update?id=${id}`}
                       >
                         Edit
                       </Link>
