@@ -1,7 +1,9 @@
 "use client";
+import { deleteFeaturedProduct } from "@/app/admin/products/featured/action";
 import { Button, CardBody, Typography } from "@material-tailwind/react";
 import Link from "next/link";
-import React from "react";
+import { useRouter } from "next/navigation";
+import React, { useTransition } from "react";
 import truncate from "truncate";
 
 const TABLE_HEAD = ["Detail", "Product", ""];
@@ -18,7 +20,17 @@ interface Products {
   linkTitle: string;
 }
 
-export default function FeaturedProductTable({ products }: FeaturedProductTableProps) {
+export default function FeaturedProductTable({
+  products,
+}: FeaturedProductTableProps) {
+  const [isPending, startTransition] = useTransition();
+  const router = useRouter();
+
+  const handleDelete = async (id: string) => {
+    await deleteFeaturedProduct(id);
+    router.refresh();
+  };
+
   return (
     <div className="py-5">
       <CardBody className="px-0">
@@ -81,8 +93,18 @@ export default function FeaturedProductTable({ products }: FeaturedProductTableP
                       >
                         Edit
                       </Link>
-                      <Button color="red" ripple={false} variant="text">
-                        Delete
+                      <Button
+                        onClick={() =>
+                          startTransition(async () => {
+                            await handleDelete(item.id);
+                          })
+                        }
+                        disabled={isPending}
+                        color="red"
+                        ripple={false}
+                        variant="text"
+                      >
+                        {isPending ? "Deleting" : "Delete"}
                       </Button>
                     </div>
                   </td>

@@ -11,7 +11,7 @@ import {
 import * as Yup from "yup";
 import { toast } from "react-toastify";
 import { updateProductInfoSchema } from "@/utils/validationSchema";
-import { uploadImage } from "@/utils/helper";
+import { extraPublicId, uploadImage } from "@/utils/helper";
 
 interface UpdateProductPageProps {
   product: ProductResponse;
@@ -28,9 +28,7 @@ function UpdateProductPage({ product }: UpdateProductPageProps) {
   };
 
   const handleImageRemove = async (source: string) => {
-    const splittedData = source.split("/");
-    const lastItem = splittedData[splittedData.length - 1];
-    const publicId = lastItem.split(".")[0];
+    const publicId = extraPublicId(source);
     await removeAndUpdateProductImage(product.id, publicId);
   };
 

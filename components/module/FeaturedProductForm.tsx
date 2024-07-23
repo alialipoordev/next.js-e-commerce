@@ -1,11 +1,12 @@
 "use client";
 
+import { removeImageFromCloud } from "@/app/admin/products/action";
 import {
   createFeaturedProduct,
   updateFeaturedProduct,
 } from "@/app/admin/products/featured/action";
 import { FeaturedProductUpdate } from "@/types";
-import { uploadImage } from "@/utils/helper";
+import { extraPublicId, uploadImage } from "@/utils/helper";
 import { Button, Input } from "@material-tailwind/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -124,6 +125,8 @@ export default function FeaturedProductForm({
         title,
       };
       if (file) {
+        const publicId = extraPublicId(initialValue.banner);
+        await removeImageFromCloud(publicId);
         const banner = await uploadImage(file);
         data.banner = banner;
       }
