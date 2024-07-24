@@ -3,6 +3,8 @@ import GridView from "../module/GridView";
 import ProductModel from "@/models/productModel";
 import connectDB from "@/lib/connectDB";
 import ProductCard from "../module/ProductCard";
+import FeaturedProductsSlider from "../module/FeaturedProductsSlider";
+import FeaturedProductModel from "@/models/featuredProduct";
 
 interface ProductList {
   id: string;
@@ -36,16 +38,35 @@ const fetchProducts = async () => {
   return JSON.stringify(productList);
 };
 
+const fetchFeaturedProducts = async () => {
+  await connectDB();
+  const products = await FeaturedProductModel.find().sort("-createdAt");
+
+  return products.map((product) => {
+    return {
+      id: product._id.toString(),
+      title: product.title,
+      link: product.link,
+      linkTitle: product.linkTitle,
+      banner: product.banner.url,
+    };
+  });
+};
+
 async function HomePage() {
   const latestProducts = await fetchProducts();
   const parsedProducts = JSON.parse(latestProducts) as ProductList[];
+  const featuredProducts = await fetchFeaturedProducts();
 
   return (
-    <GridView>
-      {parsedProducts.map((product) => {
-        return <ProductCard key={product.id} product={product} />;
-      })}
-    </GridView>
+    <div className="py-4 space-y-4">
+      <FeaturedProductsSlider products={featuredProducts} />
+      <GridView>
+        {parsedProducts.map((product) => {
+          return <ProductCard key={product.id} product={product} />;
+        })}
+      </GridView>
+    </div>
   );
 }
 

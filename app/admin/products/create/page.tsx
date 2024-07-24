@@ -8,8 +8,11 @@ import React from "react";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
 import { createProduct } from "../action";
+import { useRouter } from "next/navigation";
 
 function Create() {
+  const router = useRouter();
+
   const handleCreateProduct = async (values: NewProductInfo) => {
     try {
       const { thumbnail, images } = values;
@@ -35,6 +38,9 @@ function Create() {
         images: productImages,
         thumbnail: thumbnailRes,
       });
+
+      router.refresh()
+      router.push("/admin/products");
     } catch (error) {
       if (error instanceof Yup.ValidationError) {
         error.inner.map((err) => {

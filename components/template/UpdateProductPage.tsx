@@ -12,6 +12,7 @@ import * as Yup from "yup";
 import { toast } from "react-toastify";
 import { updateProductInfoSchema } from "@/utils/validationSchema";
 import { extraPublicId, uploadImage } from "@/utils/helper";
+import { useRouter } from "next/navigation";
 
 interface UpdateProductPageProps {
   product: ProductResponse;
@@ -26,6 +27,8 @@ function UpdateProductPage({ product }: UpdateProductPageProps) {
     images: product.images?.map(({ url }) => url),
     bulletPoints: product.bulletPoints || [],
   };
+
+  const router = useRouter();
 
   const handleImageRemove = async (source: string) => {
     const publicId = extraPublicId(source);
@@ -62,6 +65,8 @@ function UpdateProductPage({ product }: UpdateProductPageProps) {
       }
 
       await updateProduct(product.id, dataToUpdate);
+      router.refresh();
+      router.push("/admin/products");
     } catch (error) {
       if (error instanceof Yup.ValidationError) {
         error.inner.map((err) => {

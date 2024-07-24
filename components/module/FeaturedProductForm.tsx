@@ -102,6 +102,8 @@ export default function FeaturedProductForm({
         );
       const banner = await uploadImage(file);
       await createFeaturedProduct({ banner, link, linkTitle, title });
+      router.refresh();
+      setFeaturedProduct({ ...defaultProduct });
     } catch (error) {
       if (error instanceof Yup.ValidationError) {
         error.inner.map((err) => {
@@ -132,6 +134,7 @@ export default function FeaturedProductForm({
       }
 
       await updateFeaturedProduct(initialValue.id, data);
+      router.refresh();
       router.push("/admin/products/featured/add");
     } catch (error) {
       if (error instanceof Yup.ValidationError) {
