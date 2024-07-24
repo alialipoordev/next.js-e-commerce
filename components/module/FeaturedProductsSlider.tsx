@@ -2,7 +2,7 @@
 import { Button } from "@material-tailwind/react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import Slider, { Settings } from "react-slick";
 import "slick-carousel/slick/slick.css";
@@ -20,8 +20,10 @@ interface FeaturedProductsSliderProps {
   products: FeaturedProduct[];
 }
 
-const settings: Settings = {
-  dots: true,
+const shouldShowDots = false;
+
+const sliderSettings: Settings = {
+  dots: shouldShowDots,
   lazyLoad: "anticipated",
   infinite: true,
   speed: 500,
@@ -34,7 +36,17 @@ const settings: Settings = {
 export default function FeaturedProductsSlider({
   products,
 }: FeaturedProductsSliderProps) {
+  const [settings, setSettings] = useState<Settings>(sliderSettings);
   const router = useRouter();
+
+  useEffect(() => {
+    if (products.length) {
+      setSettings((prevSettings) => ({
+        ...prevSettings,
+        dots: true,
+      }));
+    }
+  }, [products]);
 
   if (!products.length) return null;
 

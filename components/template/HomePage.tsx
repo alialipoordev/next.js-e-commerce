@@ -5,6 +5,7 @@ import connectDB from "@/lib/connectDB";
 import ProductCard from "../module/ProductCard";
 import FeaturedProductsSlider from "../module/FeaturedProductsSlider";
 import FeaturedProductModel from "@/models/featuredProduct";
+import HorizontalMenu from "../module/HorizontalMenu";
 
 interface ProductList {
   id: string;
@@ -61,6 +62,7 @@ async function HomePage() {
   return (
     <div className="py-4 space-y-4">
       <FeaturedProductsSlider products={featuredProducts} />
+      <HorizontalMenu />
       <GridView>
         {parsedProducts.map((product) => {
           return <ProductCard key={product.id} product={product} />;
