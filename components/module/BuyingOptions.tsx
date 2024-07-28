@@ -38,6 +38,8 @@ export default function BuyingOptions() {
     const { error } = await res.json();
 
     if (!res.ok && error) toast.error(error);
+
+    router.refresh()
   };
 
   return (

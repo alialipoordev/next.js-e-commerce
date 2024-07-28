@@ -48,6 +48,8 @@ export default function ProductCard({ product }: ProductCardProps) {
     const { error } = await res.json();
 
     if (!res.ok && error) toast.error(error);
+
+    router.refresh();
   };
 
   return (
