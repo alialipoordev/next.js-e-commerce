@@ -1,4 +1,5 @@
 "use client";
+
 import { Button } from "@material-tailwind/react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
@@ -20,10 +21,8 @@ interface FeaturedProductsSliderProps {
   products: FeaturedProduct[];
 }
 
-const shouldShowDots = false;
-
 const sliderSettings: Settings = {
-  dots: shouldShowDots,
+  dots: false,
   lazyLoad: "anticipated",
   infinite: true,
   speed: 500,
