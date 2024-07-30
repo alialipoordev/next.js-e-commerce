@@ -1,4 +1,5 @@
 import { authOptions } from "@/auth";
+import EmailVerificationBanner from "@/components/module/EmailVerificationBanner";
 import ProfileForm from "@/components/module/ProfileForm";
 import connectDB from "@/lib/connectDB";
 import UserModel from "@/models/userModel";
@@ -20,6 +21,7 @@ const fetchUserProfile = async () => {
     avatar: user.avatar?.url,
     email: user.email,
     name: user.name,
+    verified: user.verified,
   };
 };
 
@@ -28,6 +30,10 @@ async function Profile() {
 
   return (
     <div>
+      <EmailVerificationBanner
+        verified={userProfile.verified}
+        id={userProfile.id}
+      />
       <div>
         <ProfileForm
           avatar={userProfile.avatar}

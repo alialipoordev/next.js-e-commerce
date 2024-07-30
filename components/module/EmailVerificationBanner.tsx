@@ -1,19 +1,21 @@
 "use client";
 
-import useAuth from "@/hooks/useAuth";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 
-function EmailVerificationBanner() {
-  const { profile } = useAuth();
+interface Props {
+  id?: string;
+  verified?: boolean;
+}
+
+function EmailVerificationBanner({ id, verified }: Props) {
   const [submitting, setSubmitting] = useState(false);
 
-
   const applyForReverification = async () => {
-    if (!profile) return;
+    if (!id) return;
 
     setSubmitting(true);
-    const res = await fetch("/api/users/verify?userId=" + profile.id);
+    const res = await fetch("/api/users/verify?userId=" + id);
 
     const { message, error } = await res.json();
 
@@ -25,10 +27,10 @@ function EmailVerificationBanner() {
     setSubmitting(false);
   };
 
-  if (profile?.verified) return null;
+  if (verified) return null;
 
   return (
-    <div className="p-2 text-center bg-blue-50">
+    <div className="p-2 text-center bg-blue-50 mb-2">
       <span>It looks like you haven&apos;t verified your email.</span>
       <button
         disabled={submitting}
