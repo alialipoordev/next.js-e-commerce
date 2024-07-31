@@ -15,9 +15,9 @@ import { UserCircleIcon, ShoppingBagIcon } from "@heroicons/react/24/outline";
 import useAuth from "@/hooks/useAuth";
 import { usePathname } from "next/navigation";
 
-
-interface Props {
+interface NavUIProps {
   cartItemsCount: number;
+  avatar?: string;
 }
 
 export const menuItems = [
@@ -33,19 +33,17 @@ export const menuItems = [
   },
 ];
 
-export default function NavUI({ cartItemsCount }: Props) {
+export default function NavUI({ cartItemsCount, avatar }: NavUIProps) {
   const [open, setOpen] = React.useState(false);
   const { loading, loggedIn } = useAuth();
-  const path = usePathname()
+  const path = usePathname();
 
-  
-  
   React.useEffect(() => {
     const onResize = () => window.innerWidth >= 960 && setOpen(false);
     window.addEventListener("resize", onResize);
     return () => window.removeEventListener("resize", onResize);
   }, []);
-  
+
   if (path.startsWith("/admin")) return null;
 
   return (
@@ -62,7 +60,7 @@ export default function NavUI({ cartItemsCount }: Props) {
           <div className="hidden lg:flex gap-2 items-center">
             <CartIcon cartItems={cartItemsCount} />
             {loggedIn ? (
-              <ProfileMenu menuItems={menuItems} />
+              <ProfileMenu menuItems={menuItems} avatar={avatar} />
             ) : loading ? (
               <Spinner />
             ) : (
