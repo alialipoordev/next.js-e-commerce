@@ -69,6 +69,7 @@ const CartItems: React.FC<CartItemsProps> = ({
               </td>
               <td className="py-4 text-right">
                 <button
+                  onClick={() => updateCart(product.id, -product.qty)}
                   disabled={busy}
                   className="text-red-500"
                   style={{ opacity: busy ? "0.5" : "1" }}
