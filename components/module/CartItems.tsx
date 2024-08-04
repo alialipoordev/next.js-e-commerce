@@ -5,6 +5,7 @@ import { XMarkIcon } from "@heroicons/react/24/outline";
 import { Button } from "@material-tailwind/react";
 import { formatPrice } from "@/utils/helper";
 import CartCountUpdater from "./CartCountUpdater";
+import { useRouter } from "next/navigation";
 
 export interface Product {
   id: string;
@@ -28,6 +29,17 @@ const CartItems: React.FC<CartItemsProps> = ({
   cartTotal,
 }) => {
   const [busy, setBusy] = useState(false);
+  const router = useRouter();
+
+  const updateCart = async (productId: string, quantity: number) => {
+    setBusy(true);
+    await fetch("/api/product/cart", {
+      method: "POST",
+      body: JSON.stringify({ productId, quantity }),
+    });
+    setBusy(false);
+    router.refresh();
+  };
 
   return (
     <div className="max-w-screen-xl m-auto p-4">
@@ -48,7 +60,12 @@ const CartItems: React.FC<CartItemsProps> = ({
                 {formatPrice(product.totalPrice)}
               </td>
               <td className="py-4">
-                <CartCountUpdater value={product.qty} disabled={busy} />
+                <CartCountUpdater
+                  onDecrement={() => updateCart(product.id, -1)}
+                  onIncrement={() => updateCart(product.id, 1)}
+                  value={product.qty}
+                  disabled={busy}
+                />
               </td>
               <td className="py-4 text-right">
                 <button
