@@ -109,3 +109,17 @@ export interface UserProfileToUpdate {
   name: string;
   id: string;
 }
+
+export interface CartItems {
+  products: {
+    id: string;
+    thumbnail: string;
+    title: string;
+    price: number;
+    totalPrice: number;
+    qty: number;
+  }[];
+  id: string;
+  totalQty: number;
+  totalPrice: number;
+}
