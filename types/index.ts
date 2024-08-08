@@ -110,15 +110,17 @@ export interface UserProfileToUpdate {
   id: string;
 }
 
+export interface CartProduct {
+  id: string;
+  thumbnail: string;
+  title: string;
+  price: number;
+  totalPrice: number;
+  qty: number;
+}
+
 export interface CartItems {
-  products: {
-    id: string;
-    thumbnail: string;
-    title: string;
-    price: number;
-    totalPrice: number;
-    qty: number;
-  }[];
+  products: CartProduct[];
   id: string;
   totalQty: number;
   totalPrice: number;
@@ -129,5 +131,6 @@ export interface StripeCustomer {
     userId: string;
     cartId: string;
     type: "checkout" | "instant-checkout";
+    product: string;
   };
 }

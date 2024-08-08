@@ -59,6 +59,7 @@ export const POST = async (req: Request) => {
           id: product.id,
           title: product.title,
           price: product.price.discounted,
+          totalPrice: product.price.discounted,
           thumbnail: product.thumbnail.url,
           qty: 1,
         }),
