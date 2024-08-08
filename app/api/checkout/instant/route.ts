@@ -1,5 +1,6 @@
 import { authOptions } from "@/auth";
 import { getCartItems } from "@/lib/cartHelper";
+import ProductModel from "@/models/productModel";
 import { isValidObjectId } from "mongoose";
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
@@ -21,46 +22,53 @@ export const POST = async (req: Request) => {
       );
 
     const data = await req.json();
-    const cartId = data.cartId as string;
+    const productId = data.productId as string;
 
-    if (!isValidObjectId(cartId))
+    if (!isValidObjectId(productId))
       return NextResponse.json(
         {
-          error: "Invalid cart id!",
+          error: "Invalid product id!",
         },
         { status: 401 }
       );
 
-    const cartItems = await getCartItems(session.user.id, cartId);
-    if (!cartItems)
-      return NextResponse.json({ error: "Cart not found!" }, { status: 404 });
+    const product = await ProductModel.findById(productId);
+    if (!product)
+      return NextResponse.json(
+        { error: "Product not found!" },
+        { status: 404 }
+      );
 
-    const line_items = cartItems.products.map((product) => {
-      return {
-        price_data: {
-          currency: "USD",
-          unit_amount: product.price * 100,
-          product_data: {
-            name: product.title,
-            images: [product.thumbnail],
-          },
+    const line_items = {
+      price_data: {
+        currency: "USD",
+        unit_amount: product.price.discounted * 100,
+        product_data: {
+          name: product.title,
+          images: [product.thumbnail.url],
         },
-        quantity: product.qty,
-      };
-    });
+      },
+      quantity: 1,
+    };
 
     const customer = await strip.customers.create({
       metadata: {
         userId: session.user.id,
-        cartId,
-        type: "checkout",
+        type: "instant-checkout",
+        product: JSON.stringify({
+          id: product.id,
+          title: product.title,
+          price: product.price.discounted,
+          thumbnail: product.thumbnail.url,
+          qty: 1,
+        }),
       },
     });
 
     const params: Stripe.Checkout.SessionCreateParams = {
       mode: "payment",
       payment_method_types: ["card"],
-      line_items,
+      line_items: [line_items],
       success_url: process.env.PAYMENT_SUCCESS_URL,
       cancel_url: process.env.PAYMENT_CANCEL_URL,
       shipping_address_collection: { allowed_countries: ["US"] },
