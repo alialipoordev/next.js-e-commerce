@@ -9,6 +9,7 @@ import {
 } from "mongoose";
 
 interface OrderDocument extends Document {
+  _id: ObjectId;
   userId: ObjectId;
   stripeCustomerId: string;
   paymentIntent: string;
