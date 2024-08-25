@@ -13,7 +13,7 @@ const PrivateLayout: React.FunctionComponent<PrivateLayoutProps> = async ({
   const session = await getServerSession(authOptions);
   if (!session) return redirect("/signin");
 
-  return <div className="max-w-screen-xl mx-auto p-4 xl:p-0">{children}</div>;
+  return <div className="max-w-screen-xl mx-auto p-4 xl:p-2">{children}</div>;
 };
 
 export default PrivateLayout;
