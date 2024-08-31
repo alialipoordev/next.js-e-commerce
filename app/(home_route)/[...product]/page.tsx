@@ -2,6 +2,7 @@ import ProductViewPage from "@/components/template/ProductViewPage";
 import connectDB from "@/lib/connectDB";
 import ProductModel from "@/models/productModel";
 import { isValidObjectId } from "mongoose";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import * as React from "react";
 
@@ -35,7 +36,7 @@ const ProductDetails: React.FunctionComponent<ProductDetailsProps> = async ({
 }) => {
   const productId = product[1];
   const productInfo = JSON.parse(await fetchProduct(productId));
-  let productImages = [productInfo.thumbnail]
+  let productImages = [productInfo.thumbnail];
   if (productInfo.images) {
     productImages = productImages.concat(productInfo.images);
   }
@@ -50,6 +51,13 @@ const ProductDetails: React.FunctionComponent<ProductDetailsProps> = async ({
         points={productInfo.bulletPoints}
         images={productImages}
       />
+
+      <div className="py-4">
+        <div className="flex justify-between items-center">
+          <h1 className="text-2xl font-semibold mb-2">Reviews</h1>
+          <Link href={`add-review/${productInfo.id}`}>Add Review</Link>
+        </div>
+      </div>
     </div>
   );
 };
