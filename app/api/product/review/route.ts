@@ -15,12 +15,12 @@ export const POST = async (req: Request) => {
       { status: 401 }
     );
 
-  const { productId, userId, comment, rating } =
+  const { productId, comment, rating } =
     (await req.json()) as ReviewRequestBody;
 
-  if (!isValidObjectId(productId) || !isValidObjectId(userId))
+  if (!isValidObjectId(productId))
     return NextResponse.json(
-      { error: "invalid product/user id!" },
+      { error: "invalid product id!" },
       { status: 401 }
     );
 
@@ -29,9 +29,11 @@ export const POST = async (req: Request) => {
 
   await connectDB();
 
+  const userId = session.user.id;
+
   const data = { comment, userId, product: productId, rating };
 
-  await ReviewModel.findByIdAndUpdate({ userId, product: productId }, data, {
+  await ReviewModel.findOneAndUpdate({ userId, product: productId }, data, {
     upsert: true,
   });
 
