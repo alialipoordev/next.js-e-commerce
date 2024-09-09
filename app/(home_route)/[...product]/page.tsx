@@ -32,8 +32,9 @@ const fetchProduct = async (productId: string) => {
 };
 
 const ProductDetails: React.FunctionComponent<ProductDetailsProps> = async ({
-  params: { product },
+  params,
 }) => {
+  const { product } = params;
   const productId = product[1];
   const productInfo = JSON.parse(await fetchProduct(productId));
   let productImages = [productInfo.thumbnail];

@@ -1,6 +1,7 @@
 import { Document, Model, model, models, ObjectId, Schema } from "mongoose";
 
 interface ReviewDocument extends Document {
+  _id: ObjectId;
   userId: ObjectId;
   product: ObjectId;
   rating: number;
