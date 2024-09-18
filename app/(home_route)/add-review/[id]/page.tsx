@@ -1,5 +1,6 @@
 import { authOptions } from "@/auth";
 import ReviewForm from "@/components/module/ReviewForm";
+import connectDB from "@/lib/connectDB";
 import ReviewModel from "@/models/reviewModel";
 import { getServerSession } from "next-auth";
 import Image from "next/image";
@@ -14,6 +15,7 @@ const fetchReview = async (productId: string) => {
   const session = await getServerSession(authOptions);
   if (!session?.user) return redirect("/signin");
 
+  await connectDB();
   const review = await ReviewModel.findOne({
     userId: session.user.id,
     product: productId,

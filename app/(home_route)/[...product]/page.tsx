@@ -1,6 +1,8 @@
+import ReviewsList from "@/components/module/ReviewsList";
 import ProductViewPage from "@/components/template/ProductViewPage";
 import connectDB from "@/lib/connectDB";
 import ProductModel from "@/models/productModel";
+import ReviewModel from "@/models/reviewModel";
 import { isValidObjectId } from "mongoose";
 import Link from "next/link";
 import { redirect } from "next/navigation";
@@ -31,6 +33,31 @@ const fetchProduct = async (productId: string) => {
   });
 };
 
+const fetchProductReviews = async (productId: string) => {
+  await connectDB();
+
+  const reviews = await ReviewModel.find({ product: productId }).populate<{
+    userId: { name: String; _id: string; avatar?: { url: string } };
+  }>({
+    path: "userId",
+    select: "name avatar.url",
+  });
+
+  const result = reviews.map((review) => ({
+    id: review._id.toString(),
+    comment: review.comment,
+    rating: review.rating,
+    date: review.createdAt,
+    userInfo: {
+      id: review.userId._id.toString(),
+      name: review.userId.name,
+      avatar: review.userId.avatar?.url,
+    },
+  }));
+
+  return JSON.stringify(result);
+};
+
 const ProductDetails: React.FunctionComponent<ProductDetailsProps> = async ({
   params,
 }) => {
@@ -41,6 +68,8 @@ const ProductDetails: React.FunctionComponent<ProductDetailsProps> = async ({
   if (productInfo.images) {
     productImages = productImages.concat(productInfo.images);
   }
+
+  const reviews = await fetchProductReviews(productId);
 
   return (
     <div className="p-4 mx-auto max-w-screen-xl">
@@ -59,6 +88,8 @@ const ProductDetails: React.FunctionComponent<ProductDetailsProps> = async ({
           <Link href={`add-review/${productInfo.id}`}>Add Review</Link>
         </div>
       </div>
+
+      <ReviewsList reviews={JSON.parse(reviews)} />
     </div>
   );
 };
