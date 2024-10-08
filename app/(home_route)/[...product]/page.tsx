@@ -43,6 +43,7 @@ const fetchProductReviews = async (productId: string) => {
     select: "name avatar.url",
   });
 
+
   const result = reviews.map((review) => ({
     id: review._id.toString(),
     comment: review.comment,
@@ -61,8 +62,7 @@ const fetchProductReviews = async (productId: string) => {
 const ProductDetails: React.FunctionComponent<ProductDetailsProps> = async ({
   params,
 }) => {
-  const { product } = params;
-  const productId = product[1];
+  const productId = params.product[1];
   const productInfo = JSON.parse(await fetchProduct(productId));
   let productImages = [productInfo.thumbnail];
   if (productInfo.images) {
