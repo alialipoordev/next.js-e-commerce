@@ -30,6 +30,7 @@ const fetchProduct = async (productId: string) => {
     bulletPoints: product.bulletPoints,
     price: product.price,
     sale: product.sale,
+    rating: product.rating,
   });
 };
 
@@ -80,6 +81,7 @@ const ProductDetails: React.FunctionComponent<ProductDetailsProps> = async ({
         sale={productInfo.sale}
         points={productInfo.bulletPoints}
         images={productImages}
+        rating={productInfo.rating}
       />
 
       <div className="py-4">

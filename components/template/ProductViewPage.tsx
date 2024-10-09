@@ -2,6 +2,7 @@ import React from "react";
 import { formatPrice } from "@/utils/helper";
 import BuyingOptions from "../module/BuyingOptions";
 import ProductImageGallery from "../module/ProductImageGallery";
+import Rating from "../module/Rating";
 
 interface ProductViewProps {
   title: string;
@@ -10,6 +11,7 @@ interface ProductViewProps {
   points?: string[];
   price: { base: number; discounted: number };
   sale: number;
+  rating: number;
 }
 
 export default function ProductViewPage({
@@ -19,6 +21,7 @@ export default function ProductViewPage({
   points,
   price,
   sale,
+  rating,
 }: ProductViewProps) {
   return (
     <div className="flex lg:flex-row flex-col md:gap-4 gap-2">
@@ -28,7 +31,10 @@ export default function ProductViewPage({
       </div>
 
       <div className="flex-1 md:space-y-4 space-y-2">
-        <h1 className="md:text-3xl text-xl font-semibold">{title}</h1>
+        <div>
+          <h1 className="md:text-3xl text-xl font-semibold pb-1.5">{title}</h1>
+          {rating && <Rating rating={parseFloat(rating.toFixed(1))} />}
+        </div>
         <p>{description}</p>
 
         <div className="pl-4 space-y-2">

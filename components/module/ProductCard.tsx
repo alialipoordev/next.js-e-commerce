@@ -16,6 +16,7 @@ import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import truncate from "truncate";
 import { toast } from "react-toastify";
+import Rating from "./Rating";
 
 interface ProductCardProps {
   product: {
@@ -25,6 +26,7 @@ interface ProductCardProps {
     category: string;
     thumbnail: string;
     sale: number;
+    rating?: number;
     price: {
       base: number;
       discounted: number;
@@ -92,6 +94,11 @@ export default function ProductCard({ product }: ProductCardProps) {
             <Typography color="blue-gray" className="font-medium">
               ${formatPrice(product.price.discounted)}
             </Typography>
+          </div>
+          <div className="mb-2">
+            {product.rating && (
+              <Rating rating={parseFloat(product.rating.toFixed(1))} />
+            )}
           </div>
           <p className="font-normal text-sm opacity-75 line-clamp-3">
             {product.description}
