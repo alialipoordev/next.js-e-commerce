@@ -33,7 +33,7 @@ const sevenDaysSalesHistory = async () => {
   const sales = dateList.map((date) => {
     const matchedSale = last7DaysSales.find((sale) => sale._id === date);
     return {
-      day: dateFormat(date),
+      day: dateFormat(date, "ddd"),
       sale: matchedSale ? matchedSale.totalAmount : 0,
     };
   });
@@ -47,7 +47,7 @@ const sevenDaysSalesHistory = async () => {
 
 async function Sales() {
   const salesData = await sevenDaysSalesHistory();
-  
+
   return <div>Sales</div>;
 }
 
