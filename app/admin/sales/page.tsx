@@ -1,6 +1,7 @@
 import OrderModel from "@/models/orderModel";
 import React from "react";
 import dateFormat from "dateformat";
+import SalesChart from "@/components/module/SalesChart";
 
 const sevenDaysSalesHistory = async () => {
   const sevenDaysAgo = new Date();
@@ -48,7 +49,7 @@ const sevenDaysSalesHistory = async () => {
 async function Sales() {
   const salesData = await sevenDaysSalesHistory();
 
-  return <div>Sales</div>;
+  return <SalesChart data={salesData.sales} />;
 }
 
 export default Sales;

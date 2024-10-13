@@ -59,7 +59,7 @@ const AdminSidebar = ({ children }: Props) => {
             <hr className="w-full " />
           </li>
           <li>
-            <Link className="flex items-center space-x-1" href="/sales">
+            <Link className="flex items-center space-x-1" href="/admin/sales">
               <CurrencyDollarIcon className="w-4 h-4" />
               <span>Sales</span>
             </Link>
