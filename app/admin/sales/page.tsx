@@ -2,6 +2,8 @@ import OrderModel from "@/models/orderModel";
 import React from "react";
 import dateFormat from "dateformat";
 import SalesChart from "@/components/module/SalesChart";
+import GridView from "@/components/module/GridView";
+import { formatPrice } from "@/utils/helper";
 
 const sevenDaysSalesHistory = async () => {
   const sevenDaysAgo = new Date();
@@ -49,7 +51,27 @@ const sevenDaysSalesHistory = async () => {
 async function Sales() {
   const salesData = await sevenDaysSalesHistory();
 
-  return <SalesChart data={salesData.sales} />;
+  return (
+    <div>
+      <GridView>
+        <div className="bg-blue-500 p-4 rounded space-y-4">
+          <h1 className="font-semibold text-3xl text-white">
+            {formatPrice(salesData.totalSales)}
+          </h1>
+          <div className="text-white">
+            <p>Total Sales</p>
+            <p>Last 7 Days</p>
+          </div>
+        </div>
+      </GridView>
+      <div className="mt-10">
+        <h1 className="font-semibold text-3xl mb-4">
+          Last 7 days sales history
+        </h1>
+        <SalesChart data={salesData.sales} />
+      </div>
+    </div>
+  );
 }
 
 export default Sales;
