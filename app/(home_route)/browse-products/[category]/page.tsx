@@ -1,9 +1,9 @@
 import React from "react";
 import ProductModel from "@/models/productModel";
 import connectDB from "@/lib/connectDB";
-import HorizontalMenu from "@/components/module/HorizontalMenu";
 import GridView from "@/components/module/GridView";
 import ProductCard from "@/components/module/ProductCard";
+import CategoryMenu from "@/components/module/CategoryMenu";
 
 interface ProductList {
   id: string;
@@ -51,7 +51,7 @@ async function ProductByCategory({
 
   return (
     <div className="py-4 space-y-4">
-      <HorizontalMenu />
+      <CategoryMenu />
       {parsedProducts.length ? (
         <GridView>
           {parsedProducts.map((product) => {

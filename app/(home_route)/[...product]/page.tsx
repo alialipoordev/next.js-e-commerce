@@ -1,4 +1,5 @@
 import ReviewsList from "@/components/module/ReviewsList";
+import SimilarProductsList from "@/components/module/SimilarProductsList";
 import ProductViewPage from "@/components/template/ProductViewPage";
 import connectDB from "@/lib/connectDB";
 import ProductModel from "@/models/productModel";
@@ -85,7 +86,6 @@ const ProductDetails: React.FunctionComponent<ProductDetailsProps> = async ({
 
   const reviews = await fetchProductReviews(productId);
   const similarProduct = await fetchSimilarProduct();
-  console.log(similarProduct);
 
   return (
     <div className="p-4 mx-auto max-w-screen-xl">
@@ -99,6 +99,8 @@ const ProductDetails: React.FunctionComponent<ProductDetailsProps> = async ({
         rating={productInfo.rating}
         outOfStuck={productInfo.outOfStuck}
       />
+
+      <SimilarProductsList products={similarProduct} />
 
       <div className="py-4">
         <div className="flex justify-between items-center">
