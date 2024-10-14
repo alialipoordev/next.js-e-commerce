@@ -31,6 +31,7 @@ const fetchProduct = async (productId: string) => {
     price: product.price,
     sale: product.sale,
     rating: product.rating,
+    outOfStuck: product.quantity <= 0,
   });
 };
 
@@ -43,7 +44,6 @@ const fetchProductReviews = async (productId: string) => {
     path: "userId",
     select: "name avatar.url",
   });
-
 
   const result = reviews.map((review) => ({
     id: review._id.toString(),
@@ -82,6 +82,7 @@ const ProductDetails: React.FunctionComponent<ProductDetailsProps> = async ({
         points={productInfo.bulletPoints}
         images={productImages}
         rating={productInfo.rating}
+        outOfStuck={productInfo.outOfStuck}
       />
 
       <div className="py-4">

@@ -12,6 +12,7 @@ interface ProductViewProps {
   price: { base: number; discounted: number };
   sale: number;
   rating: number;
+  outOfStuck: boolean;
 }
 
 export default function ProductViewPage({
@@ -22,6 +23,7 @@ export default function ProductViewPage({
   price,
   sale,
   rating,
+  outOfStuck,
 }: ProductViewProps) {
   return (
     <div className="flex lg:flex-row flex-col md:gap-4 gap-2">
@@ -54,7 +56,11 @@ export default function ProductViewPage({
         </div>
 
         <div className="flex py-4">
-          <BuyingOptions />
+          {outOfStuck ? (
+            <div className="uppercase text-gray-700">Out of stock</div>
+          ) : (
+            <BuyingOptions />
+          )}
         </div>
       </div>
     </div>
