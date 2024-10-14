@@ -60,6 +60,19 @@ const fetchProductReviews = async (productId: string) => {
   return JSON.stringify(result);
 };
 
+const fetchSimilarProduct = async () => {
+  await connectDB();
+  const products = await ProductModel.find().sort({ rating: -1 }).limit(10);
+  return products.map(({ _id, thumbnail, title, price }) => {
+    return {
+      id: _id.toString(),
+      title,
+      price: price.discounted,
+      thumbnail: thumbnail.url,
+    };
+  });
+};
+
 const ProductDetails: React.FunctionComponent<ProductDetailsProps> = async ({
   params,
 }) => {
@@ -71,6 +84,8 @@ const ProductDetails: React.FunctionComponent<ProductDetailsProps> = async ({
   }
 
   const reviews = await fetchProductReviews(productId);
+  const similarProduct = await fetchSimilarProduct();
+  console.log(similarProduct);
 
   return (
     <div className="p-4 mx-auto max-w-screen-xl">
