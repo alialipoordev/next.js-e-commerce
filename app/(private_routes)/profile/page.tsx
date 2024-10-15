@@ -1,12 +1,39 @@
 import { authOptions } from "@/auth";
 import EmailVerificationBanner from "@/components/module/EmailVerificationBanner";
+import OrderListPublic, { Orders } from "@/components/module/OrderListPublic";
 import ProfileForm from "@/components/module/ProfileForm";
 import connectDB from "@/lib/connectDB";
+import OrderModel from "@/models/orderModel";
 import UserModel from "@/models/userModel";
 import { getServerSession } from "next-auth";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import React from "react";
+
+const fetchLatestOrder = async () => {
+  const session = await getServerSession(authOptions);
+
+  if (!session?.user) return redirect("/signin");
+
+  await connectDB();
+
+  const orders = await OrderModel.find({ userId: session.user.id })
+    .sort("-createdAt")
+    .limit(1);
+
+  const result: Orders[] = orders.map((order) => {
+    return {
+      id: order._id.toString(),
+      paymentStatus: order.paymentStatus,
+      date: order.createdAt.toString(),
+      total: order.totalAmount,
+      deliveryStatus: order.deliveryStatus,
+      products: order.orderItems,
+    };
+  });
+
+  return JSON.stringify(result);
+};
 
 const fetchUserProfile = async () => {
   const session = await getServerSession(authOptions);
@@ -28,6 +55,7 @@ const fetchUserProfile = async () => {
 
 async function Profile() {
   const userProfile = await fetchUserProfile();
+  const order = JSON.parse(await fetchLatestOrder());
 
   return (
     <div>
@@ -54,6 +82,7 @@ async function Profile() {
               See all orders
             </Link>
           </div>
+          <OrderListPublic orders={order} />
         </div>
       </div>
     </div>
