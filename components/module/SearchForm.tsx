@@ -3,7 +3,11 @@ import React, { useState } from "react";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { useRouter, useSearchParams } from "next/navigation";
 
-export default function SearchForm() {
+interface SearchFormProps {
+  submitTo: string;
+}
+
+export default function SearchForm({ submitTo }: SearchFormProps) {
   const [query, setQuery] = useState("");
   const router = useRouter();
   const params = useSearchParams();
@@ -12,7 +16,7 @@ export default function SearchForm() {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!query) return;
-    router.push(`/admin/products/search?query=${query}`);
+    router.push(`${submitTo}${query}`);
   };
 
   return (

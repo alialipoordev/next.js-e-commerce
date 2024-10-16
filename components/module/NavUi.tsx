@@ -14,6 +14,7 @@ import CartIcon from "./CartIcon";
 import { UserCircleIcon, ShoppingBagIcon } from "@heroicons/react/24/outline";
 import useAuth from "@/hooks/useAuth";
 import { usePathname } from "next/navigation";
+import SearchForm from "./SearchForm";
 
 interface NavUIProps {
   cartItemsCount: number;
@@ -56,6 +57,12 @@ export default function NavUI({ cartItemsCount, avatar }: NavUIProps) {
           >
             Next Ecom
           </Link>
+
+          <div className="flex-1 flex justify-center">
+            <div className="md:w-96 w-full md:mx-0 mx-4">
+              <SearchForm submitTo="/search?query=" />
+            </div>
+          </div>
 
           <div className="hidden lg:flex gap-2 items-center">
             <CartIcon cartItems={cartItemsCount} />
