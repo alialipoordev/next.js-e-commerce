@@ -29,8 +29,6 @@ export interface Product {
   quantity: number;
 }
 
-
-
 const TABLE_HEAD = [
   "Product",
   "MRP",

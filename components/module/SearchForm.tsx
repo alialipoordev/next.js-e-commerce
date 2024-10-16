@@ -1,11 +1,13 @@
 import { Input } from "@material-tailwind/react";
 import React, { useState } from "react";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export default function SearchForm() {
   const [query, setQuery] = useState("");
   const router = useRouter();
+  const params = useSearchParams();
+  const searchQuery = params.get("query") || "";
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -22,7 +24,7 @@ export default function SearchForm() {
             <MagnifyingGlassIcon className="h-5 w-5" />
           </button>
         }
-        value={query}
+        value={query || searchQuery}
         onChange={({ target }) => setQuery(target.value)}
       />
     </form>

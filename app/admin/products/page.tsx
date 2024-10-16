@@ -17,21 +17,32 @@ const fetchProducts = async (
     .skip(skipCount)
     .limit(perPage);
 
-  return products.map((product) => {
-    return {
-      id: product._id.toString(),
-      title: product.title,
-      thumbnail: product.thumbnail.url,
-      description: product.description,
-      price: {
-        mrp: product.price.base,
-        salePrice: product.price.discounted,
-        saleOff: product.sale,
-      },
-      category: product.category,
-      quantity: product.quantity,
-    };
-  });
+  return products.map(
+    ({
+      _id,
+      title,
+      thumbnail,
+      description,
+      price,
+      sale,
+      category,
+      quantity,
+    }) => {
+      return {
+        id: _id.toString(),
+        title,
+        thumbnail: thumbnail.url,
+        description,
+        price: {
+          mrp: price.base,
+          salePrice: price.discounted,
+          saleOff: sale,
+        },
+        category,
+        quantity,
+      };
+    }
+  );
 };
 
 interface ProductsProps {
@@ -44,7 +55,7 @@ async function Products({ searchParams }: ProductsProps) {
   const { page = "1" } = searchParams;
   const products = await fetchProducts(+page, PRODUCTS_PER_PAGE);
   let hasMore = true;
-  
+
   if (isNaN(+page)) return redirect("/404");
 
   if (products.length < PRODUCTS_PER_PAGE) hasMore = false;
