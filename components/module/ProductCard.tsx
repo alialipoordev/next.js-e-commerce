@@ -18,20 +18,21 @@ import truncate from "truncate";
 import { toast } from "react-toastify";
 import Rating from "./Rating";
 
-interface ProductCardProps {
-  product: {
-    id: string;
-    title: string;
-    description: string;
-    category: string;
-    thumbnail: string;
-    sale: number;
-    rating?: number;
-    price: {
-      base: number;
-      discounted: number;
-    };
+export interface Product {
+  id: string;
+  title: string;
+  description: string;
+  category: string;
+  thumbnail: string;
+  sale: number;
+  rating?: number;
+  price: {
+    base: number;
+    discounted: number;
   };
+};
+interface ProductCardProps {
+  product: Product;
 }
 
 export default function ProductCard({ product }: ProductCardProps) {
