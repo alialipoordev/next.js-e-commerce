@@ -42,7 +42,7 @@ export default function SearchFilter({ children }: SearchFilterProps) {
       }}
       className="md:flex py-4 space-y-4"
     >
-      <div className="md:border-r md:border-b-0 border-b border-gray-700 p-4 md:space-y-4 md:block flex space-x-8 md:space-x-0">
+      <div className="md:border-r md:border-b-0 border-b border-gray-700 p-4 md:space-y-4 md:block flex space-x-8 md:space-x-0 sticky top-0 md:h-screen z-10 bg-white">
         <div>
           <p className="font-semibold">Price</p>
           <div>
@@ -94,12 +94,27 @@ export default function SearchFilter({ children }: SearchFilterProps) {
               setApplyRatingFilter(true);
               setRating(value as number[]);
             }}
+            defaultValue={rating}
           />
         </div>
 
         <div>
-          <button className="text-blue-gray-600 text-center w-full p-1 border rounded mt-6">
+          <button
+            type="submit"
+            className="text-blue-gray-600 text-center w-full p-1 border rounded mt-6"
+          >
             Apply Filter
+          </button>
+          <button
+            type="button"
+            className="text-blue-gray-600 text-center w-full p-1 border rounded mt-6"
+            onClick={() => {
+              setApplyRatingFilter(false);
+              setRating([0, 5]);
+              router.push(`/search?query=${query}`);
+            }}
+          >
+            Clear Filter
           </button>
         </div>
       </div>
