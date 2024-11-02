@@ -70,14 +70,22 @@ async function Search({ searchParams }: SearchProps) {
     })
   ) as Product[];
 
+  const noProducts = !searchResults.length;
+
   return (
     <div>
       <SearchFilter>
-        <GridView>
-          {searchResults.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </GridView>
+        {noProducts ? (
+          <h1 className="text-xl font-semibold text-blue-gray-500 text-center">
+            No Product Found
+          </h1>
+        ) : (
+          <GridView>
+            {searchResults.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </GridView>
+        )}
       </SearchFilter>
     </div>
   );

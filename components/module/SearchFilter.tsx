@@ -5,6 +5,7 @@ import React, { useState } from "react";
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
 import { StarIcon } from "@heroicons/react/24/solid";
+import { useRouter, useSearchParams } from "next/navigation";
 
 interface SearchFilterProps {
   children: React.ReactNode;
@@ -15,10 +16,29 @@ export default function SearchFilter({ children }: SearchFilterProps) {
   const [priceFilter, setPriceFilter] = useState("asc");
   const [applyRatingFilter, setApplyRatingFilter] = useState(false);
 
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const query = searchParams.get("query");
+  const priceSort = searchParams.get("priceSort");
+
+  const lowToHeigh = priceSort === "asc";
+  const heighToLow = priceSort === "desc";
+
   return (
     <form
       onSubmit={(e) => {
         e.preventDefault();
+
+        let url = "";
+
+        if (applyRatingFilter) {
+          url = `/search?query=${query}&priceSort=${priceFilter}&maxRating=${rating[1]}&minRating=${rating[0]}`;
+        } else {
+          url = `/search?query=${query}&priceSort=${priceFilter}`;
+        }
+
+        router.push(url);
       }}
       className="md:flex py-4 space-y-4"
     >
@@ -30,13 +50,20 @@ export default function SearchFilter({ children }: SearchFilterProps) {
               <Radio
                 name="type"
                 label="Low to heigh"
-                defaultChecked
+                defaultChecked={lowToHeigh}
                 color="blue-gray"
                 className="text-sm"
+                onChange={() => setPriceFilter("asc")}
               />
             </div>
             <div>
-              <Radio name="type" label="Heigh to low" color="blue-gray" />
+              <Radio
+                name="type"
+                label="Heigh to low"
+                color="blue-gray"
+                defaultChecked={heighToLow}
+                onChange={() => setPriceFilter("desc")}
+              />
             </div>
           </div>
         </div>
@@ -64,6 +91,7 @@ export default function SearchFilter({ children }: SearchFilterProps) {
               ),
             }}
             onChange={(value) => {
+              setApplyRatingFilter(true);
               setRating(value as number[]);
             }}
           />
