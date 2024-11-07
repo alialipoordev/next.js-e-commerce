@@ -48,6 +48,23 @@ export default function BuyingOptions({ wishlist }: BuyingOptionsProps) {
     router.refresh();
   };
 
+  const updateWishlist = async () => {
+    if (!productId) return;
+
+    if (!loggedIn) return router.push("/signin");
+
+    const res = await fetch("/api/product/wishlist", {
+      method: "POST",
+      body: JSON.stringify({ productId }),
+    });
+
+    const { error } = await res.json();
+
+    if (!res.ok && error) toast.error(error);
+
+    router.refresh();
+  };
+
   return (
     <div className="flex items-center space-x-2">
       <CartCountUpdater
@@ -68,7 +85,7 @@ export default function BuyingOptions({ wishlist }: BuyingOptionsProps) {
       </Button>
       <Button
         disabled={isPending}
-        onClick={() => startTransition(async () => await addToCart())}
+        onClick={() => startTransition(async () => await updateWishlist())}
         variant="text"
       >
         {wishlist ? (

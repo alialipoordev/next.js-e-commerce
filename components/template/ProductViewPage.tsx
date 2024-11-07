@@ -13,6 +13,7 @@ interface ProductViewProps {
   sale: number;
   rating: number;
   outOfStuck: boolean;
+  isWishlist?: boolean;
 }
 
 export default function ProductViewPage({
@@ -24,6 +25,7 @@ export default function ProductViewPage({
   sale,
   rating,
   outOfStuck,
+  isWishlist,
 }: ProductViewProps) {
   return (
     <div className="flex lg:flex-row flex-col md:gap-4 gap-2">
@@ -59,7 +61,7 @@ export default function ProductViewPage({
           {outOfStuck ? (
             <div className="uppercase text-gray-700">Out of stock</div>
           ) : (
-            <BuyingOptions />
+            <BuyingOptions wishlist={isWishlist} />
           )}
         </div>
       </div>

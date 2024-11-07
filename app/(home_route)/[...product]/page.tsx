@@ -6,6 +6,7 @@ import connectDB from "@/lib/connectDB";
 import { updateOrCreateHistory } from "@/models/historyModel";
 import ProductModel from "@/models/productModel";
 import ReviewModel from "@/models/reviewModel";
+import WishlistModel from "@/models/wishlistModel";
 import { isValidObjectId } from "mongoose";
 import { getServerSession } from "next-auth";
 import Link from "next/link";
@@ -25,9 +26,17 @@ const fetchProduct = async (productId: string) => {
   const product = await ProductModel.findById(productId);
   if (!product) return redirect("/404");
 
+  let isWishlist = false;
+
   const session = await getServerSession(authOptions);
-  if (session?.user)
+  if (session?.user) {
     await updateOrCreateHistory(session.user.id, product._id.toString());
+    const wishlist = await WishlistModel.findOne({
+      user: session.user.id,
+      products: product._id,
+    });
+    isWishlist = wishlist ? true : false;
+  }
 
   return JSON.stringify({
     id: product._id.toString(),
@@ -40,6 +49,7 @@ const fetchProduct = async (productId: string) => {
     sale: product.sale,
     rating: product.rating,
     outOfStuck: product.quantity <= 0,
+    isWishlist,
   });
 };
 
@@ -105,6 +115,7 @@ const ProductDetails: React.FunctionComponent<ProductDetailsProps> = async ({
         images={productImages}
         rating={productInfo.rating}
         outOfStuck={productInfo.outOfStuck}
+        isWishlist={productInfo.isWishlist}
       />
 
       <SimilarProductsList products={similarProduct} />
