@@ -1,4 +1,5 @@
 import { authOptions } from "@/auth";
+import WishlistProductCard from "@/components/module/WishlistProductCard";
 import WishlistModel from "@/models/wishlistModel";
 import { ObjectId } from "mongoose";
 import { getServerSession } from "next-auth";
@@ -40,8 +41,15 @@ const fetchProducts = async () => {
 
 async function Wishlist() {
   const products = await fetchProducts();
-  console.log(products)
-  return <div>Wishlist</div>;
+
+  return (
+    <div className="space-y-4 p-4">
+      <h1 className="text-xl font-semibold">Your Wishlist</h1>
+      {products.map((product) => (
+        <WishlistProductCard key={product.id} product={product} />
+      ))}
+    </div>
+  );
 }
 
 export default Wishlist;
