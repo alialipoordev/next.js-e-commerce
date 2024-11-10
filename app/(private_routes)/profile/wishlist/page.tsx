@@ -42,6 +42,13 @@ const fetchProducts = async () => {
 async function Wishlist() {
   const products = await fetchProducts();
 
+  if (!products.length)
+    return (
+      <h1 className="text-2xl opacity-50 text-center p-6 font-semibold">
+        There is no products inside your wishlist.
+      </h1>
+    );
+
   return (
     <div className="space-y-4 p-4">
       <h1 className="text-xl font-semibold">Your Wishlist</h1>
