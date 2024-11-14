@@ -19,7 +19,7 @@ const client = new MailtrapClient({
 });
 
 const sender = {
-  email: "nextecom@reactnativehive.com",
+  email: "nextecom@demomailtrap.com",
   name: "Next Ecom Verification",
 };
 
