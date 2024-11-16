@@ -50,12 +50,25 @@ const sendEmailVerificationLink = async (profile: Profile, linkUrl: string) => {
     },
   ];
 
-  client.send({
+  // client.send({
+  //   from: sender,
+  //   to: recipients,
+  //   subject: "Verify Your Email",
+  //   text: `<h1>Please verify your email by click on <a href=${linkUrl}>this link</a> </h1>`,
+  //   category: "Email verification",
+  // });
+
+  await client.send({
     from: sender,
     to: recipients,
-    subject: "Verify Your Email",
-    text: `<h1>Please verify your email by click on <a href=${linkUrl}>this link</a> </h1>`,
-    category: "Email verification",
+    template_uuid: "eba72c1b-18b1-465d-af1a-913fad2fd2f6",
+    template_variables: {
+      subject: "Verify Your Email",
+      user_name: profile.name,
+      link: linkUrl,
+      btn_title: "Click Me to Verify Email",
+      company_name: "Next Ecom",
+    },
   });
 };
 
@@ -74,12 +87,25 @@ const sendForgotPasswordLink = async (profile: Profile, linkUrl: string) => {
     },
   ];
 
-  client.send({
+  // client.send({
+  //   from: sender,
+  //   to: recipients,
+  //   subject: "Forget Password Link",
+  //   text: `<h1>click on <a href=${linkUrl}>this link</a> to reset your password</h1>`,
+  //   category: "Forget Password Link",
+  // });
+
+  await client.send({
     from: sender,
     to: recipients,
-    subject: "Forget Password Link",
-    text: `<h1>click on <a href=${linkUrl}>this link</a> to reset your password</h1>`,
-    category: "Forget Password Link",
+    template_uuid: "eba72c1b-18b1-465d-af1a-913fad2fd2f6",
+    template_variables: {
+      subject: "Forget Password Link",
+      user_name: profile.name,
+      link: linkUrl,
+      btn_title: "Reset Password",
+      company_name: "Next Ecom",
+    },
   });
 };
 
@@ -98,12 +124,25 @@ const sendUpdatePasswordConfirmation = async (profile: Profile) => {
     },
   ];
 
-  client.send({
+  // client.send({
+  //   from: sender,
+  //   to: recipients,
+  //   subject: "Password Reset",
+  //   text: `<h1>your password is changed click on <a href=${process.env.SIGN_IN_URL}>this link</a> to sign in.</h1>`,
+  //   category: "Password Reset",
+  // });
+
+  await client.send({
     from: sender,
     to: recipients,
-    subject: "Password Reset",
-    text: `<h1>your password is changed click on <a href=${process.env.SIGN_IN_URL}>this link</a> to sign in.</h1>`,
-    category: "Password Reset",
+    template_uuid: "eba72c1b-18b1-465d-af1a-913fad2fd2f6",
+    template_variables: {
+      subject: "Password Reset Successful",
+      user_name: profile.name,
+      link: process.env.SIGN_IN_URL!,
+      btn_title: "Sign in",
+      company_name: "Next Ecom",
+    },
   });
 };
 
